@@ -54,16 +54,6 @@ class AudioFFTDataset(Dataset):
 
         return torch.stack(fft_frames)
 
-def save_fft_frames(dataset, num_frames=20, save_dir='test'):
-    os.makedirs(save_dir, exist_ok=True)
-    for i in range(min(num_frames, len(dataset))):
-        fft_frames = dataset[i]
-        for j, frame in enumerate(fft_frames):
-            plt.imshow(frame.numpy(), aspect='auto', origin='lower')
-            plt.colorbar()
-            plt.title(f'FFT Frame {i}-{j}')
-            plt.savefig(os.path.join(save_dir, f'fft_frame_{i}_{j}.jpg'))
-            plt.close()
 
 # Example usage
 # List all audio files in a directory (adjust the path to your dataset)
@@ -75,9 +65,6 @@ audio_files = json_dict["kick"]
 # Create the dataset and dataloader
 audio_fft_dataset = AudioFFTDataset(audio_files)
 audio_fft_dataloader = DataLoader(audio_fft_dataset, batch_size=1, shuffle=True)
-
-# Save the first 20 FFT frames as images
-save_fft_frames(audio_fft_dataset, num_frames=20)
 
 # Example usage
 for batch in audio_fft_dataloader:
